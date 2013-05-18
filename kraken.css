@@ -769,16 +769,8 @@ select:focus {
     right: 0;
 }
 
-.flex-direction-nav .flex-next:after {
-    content: "\25b6";
-}
-
 .flex-direction-nav .flex-prev {
     left: 0;
-}
-
-.flex-direction-nav .flex-prev:before {
-    content: "\25c0";
 }
 
 .flex-direction-nav .flex-disabled {
