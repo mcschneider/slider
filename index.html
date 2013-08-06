@@ -68,9 +68,11 @@
 
             <p>Slider uses modern JavaScript API's that aren't supported by older browsers. Add this short snippet of code in the <code>&lt;head&gt;</code> of your HTML document to feature test:</p>
 
-            <pre>if ( 'querySelector' in document && 'addEventListener' in window ) {
-    document.documentElement.className += 'js';
-}</pre>
+            <pre>&lt;script&gt;
+    if ( 'querySelector' in document && 'addEventListener' in window ) {
+        document.documentElement.className += 'js';
+    }
+&lt;/script&gt;</pre>
 
             <p>Older and less capable browsers will see a basic stack of content. Modern browsers (including IE 9 and higher) will see the slider.</p>
 
@@ -87,8 +89,8 @@
         &lt;div&gt;Text content could go here, too.&lt;/div&gt;
     &lt;/div&gt;
 &lt;/div&gt;
-&lt;div class=".slide-nav"&gt;&lt;/div&gt;
-&lt;div class=".slide-count"&gt;&lt;/div&gt;</pre>
+&lt;div class="slide-nav"&gt;&lt;/div&gt;
+&lt;div class="slide-count"&gt;&lt;/div&gt;</pre>
 
             <p>The <code>.slider-nav</code> and <code>.slider-count</code> sections are optional (though I'm assuming you'd want some type of navigation buttons). Slider will dynamically add navigation elements and slide position content to them.</p>
 
@@ -114,76 +116,78 @@
 
             <p><strong>Add this to your footer to get started:</strong></p>
 
-            <pre>if ( 'querySelector' in document && 'addEventListener' in window ) {
+            <pre>&lt;script&gt;
+    if ( 'querySelector' in document && 'addEventListener' in window ) {
 
-    // Slider Variable
-    var slider = document.querySelector('.slider');
+        // Slider Variable
+        var slider = document.querySelector('.slider');
 
-    // If a Slider exists
-    if (slider) {
+        // If a Slider exists
+        if (slider) {
 
-        // Activate Slider
-        window.mySwipe = Swipe(slider, {
-            // Configure your options
-            // startSlide: 1,
-            // speed: 400,
-            // auto: 3000,
-            continuous: true,
-            // disableScroll: false,
-            // stopPropagation: false,
-            callback: function(index, elem) {
-                // Update with new position on slide change
-                countSlides();
-            },
-            // transitionEnd: function(index, elem) {}
-        });
-
-
-        // Function to display slide count
-        var countSlides = function () {
-            // Variables
-            var slideTotal = mySwipe.getNumSlides();
-            var slideCurrent = mySwipe.getPos();
-            var slideCount = document.querySelector('.slide-count');
-            // Content
-            if (slideCount) {
-                slideCount.innerHTML = slideCurrent + ' of ' + slideTotal;
-            }   
-        }
-        // Run slide count function on load
-        countSlides();
+            // Activate Slider
+            window.mySwipe = Swipe(slider, {
+                // Configure your options
+                // startSlide: 1,
+                // speed: 400,
+                // auto: 3000,
+                continuous: true,
+                // disableScroll: false,
+                // stopPropagation: false,
+                callback: function(index, elem) {
+                    // Update with new position on slide change
+                    countSlides();
+                },
+                // transitionEnd: function(index, elem) {}
+            });
 
 
-        // Create Previous & Next Buttons
-        var slideNav = document.querySelector('.slide-nav')
-        if (slideNav) {
-            slideNav.innerHTML = '&lt;a class="slide-nav-prev" href="#"&gt;Previous&lt;/a&gt; | &lt;a class="slide-nav-next" href="#"&gt;Next&lt;/a&gt;';
-        }
-
-        // Toggle Previous & Next Buttons
-        var btnNext = document.querySelector('.slide-nav-next');
-        var btnPrev = document.querySelector('.slide-nav-prev');
-        if (btnNext) {
-            btnNext.addEventListener('click', function(e) { e.preventDefault(); mySwipe.next(); }, false);
-        }
-        if (btnPrev) {
-            btnPrev.addEventListener('click', function(e) { e.preventDefault(); mySwipe.prev(); }, false);
-        }
-
-
-        // Toggle Left & Right Keypress
-        window.addEventListener('keydown', function (e) {
-            if (e.keyCode == 37) {
-                mySwipe.prev();
+            // Function to display slide count
+            var countSlides = function () {
+                // Variables
+                var slideTotal = mySwipe.getNumSlides();
+                var slideCurrent = mySwipe.getPos();
+                var slideCount = document.querySelector('.slide-count');
+                // Content
+                if (slideCount) {
+                    slideCount.innerHTML = slideCurrent + ' of ' + slideTotal;
+                }   
             }
-            if (e.keyCode == 39) {
-                mySwipe.next();
+            // Run slide count function on load
+            countSlides();
+
+
+            // Create Previous & Next Buttons
+            var slideNav = document.querySelector('.slide-nav')
+            if (slideNav) {
+                slideNav.innerHTML = '&lt;a class="slide-nav-prev" href="#"&gt;Previous&lt;/a&gt; | &lt;a class="slide-nav-next" href="#"&gt;Next&lt;/a&gt;';
             }
-        }, false);
-        
+
+            // Toggle Previous & Next Buttons
+            var btnNext = document.querySelector('.slide-nav-next');
+            var btnPrev = document.querySelector('.slide-nav-prev');
+            if (btnNext) {
+                btnNext.addEventListener('click', function(e) { e.preventDefault(); mySwipe.next(); }, false);
+            }
+            if (btnPrev) {
+                btnPrev.addEventListener('click', function(e) { e.preventDefault(); mySwipe.prev(); }, false);
+            }
+
+
+            // Toggle Left & Right Keypress
+            window.addEventListener('keydown', function (e) {
+                if (e.keyCode == 37) {
+                    mySwipe.prev();
+                }
+                if (e.keyCode == 39) {
+                    mySwipe.next();
+                }
+            }, false);
+            
+        }
+
     }
-
-}</pre>
+&lt;/script&gt;</pre>
 
             <hr>
 
