@@ -2,10 +2,17 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>Slider - A simple, touch-enabled carousel for images and videos.</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Slider - A simple, responsive touch-enabled slider for images, videos and more.</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- stylesheets -->
-    <link rel="stylesheet" href="kraken.css" type="text/css" />
+    <link rel="stylesheet" href="kraken.css" type="text/css">
+
+    <!-- Cut the Mustard -->
+    <script>
+        if ( 'querySelector' in document && 'addEventListener' in window ) {
+            document.documentElement.className += 'js';
+        }
+    </script>
 
     <!-- HTML5 Shim for IE 6-8 -->
     <!--[if lt IE 9]>
@@ -18,9 +25,9 @@
 	    <article class="container text-center">
 
             <h1 class="text-taller no-space-bottom"><i class="icon-logo"></i> Slider</h1>
-            <p class="text-tall text-muted">A simple, fluid, touch-enabled carousel.</p>
+            <p class="text-tall text-muted">A simple, responsive, touch-enabled content slider.</p>
 
-	        <p><a class="btn btn-blue btn-jumbo" href="https://github.com/cferdinandi/slider/archive/master.zip">Download Slider</a></p>
+	        <p><a class="btn btn-blue btn-jumbo" href="https://github.com/cferdinandi/slider/archive/master.zip">Download Slider 3</a></p>
 
 	        <p>
 	            <span class="text-small">
@@ -37,25 +44,163 @@
 	    <article class="container">
 
 
-	        <h1 class="text-center" id="more">How It Works</h1>
+	        <h1 class="text-center" id="more">Getting Started</h1>
 
-	        <p>Use Slider to show images, videos and other content.</p>
+	        <p>Slider is fast, flexible content slider forked from <a href="http://swipejs.com">Swipe by Brad Birdsall</a>. It includes a few bug fixes and added features to make getting started quick and easy.</p>
 
-            <div class="flexslider">
-                <ul class="slides">
-                    <li><img src="img/cupcake1.jpg"></li>
-                    <li><img src="img/cupcake2.jpg"></li>
-                    <li><iframe width="560" height="315" src="http://www.youtube.com/embed/8qjge9U_MiA" frameborder="0" allowfullscreen></iframe></li>
-                </ul>
+            <div class="slider">
+                <div class="slides">
+                    <div><img src="img/image1.jpg"></div>
+                    <div><img src="img/image2.jpg"></div>
+                    <div><img src="img/image3.jpg"></div>
+                    <div><iframe width="560" height="315" src="http://www.youtube.com/embed/8qjge9U_MiA" frameborder="0" allowfullscreen></iframe></div>
+                </div>
             </div>
+            <div class="slide-nav"></div>
+            <div class="slide-count"></div>
 
-            <pre>&lt;div class="flexslider"&gt;
-    &lt;ul class="slides"&gt;
-        &lt;li&gt;&lt;img src="img/cupcake1.jpg"&gt;&lt;/li&gt;
-        &lt;li&gt;&lt;img src="img/cupcake2.jpg"&gt;&lt;/li&gt;
-        &lt;li&gt;&lt;iframe width="560" height="315" src="http://www.youtube.com/embed/8qjge9U_MiA" frameborder="0" allowfullscreen&gt;&lt;/iframe&gt;&lt;/li&gt;
-    &lt;/ul&gt;
-&lt;/div&gt;</pre>
+            <hr>
+
+
+            <h1 class="text-center">How It Works</h1>
+
+            <h2>1. Feature test in the header.</h2>
+
+            <p>Slider uses modern JavaScript API's that aren't supported by older browsers. Add this short snippet of code in the <code>&lt;head&gt;</code> of your HTML document to feature test:</p>
+
+            <pre>if ( 'querySelector' in document && 'addEventListener' in window ) {
+    document.documentElement.className += 'js';
+}</pre>
+
+            <p>Older and less capable browsers will see a basic stack of content. Modern browsers (including IE 9 and higher) will see the slider.</p>
+
+
+            <h2>2. Add the Slider HTML.</h2>
+
+            <p>Slider uses a simple HTML structure:</p>
+
+            <pre>&lt;div class="slider"&gt;
+    &lt;div class="slides"&gt;
+        &lt;div&gt;&lt;img src="#"&gt;&lt;/div&gt;
+        &lt;div&gt;&lt;img src="#"&gt;&lt;/div&gt;
+        &lt;div&gt;&lt;video src="#"&gt;&lt;/div&gt;
+        &lt;div&gt;Text content could go here, too.&lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=".slide-nav"&gt;&lt;/div&gt;
+&lt;div class=".slide-count"&gt;&lt;/div&gt;</pre>
+
+            <p>The <code>.slider-nav</code> and <code>.slider-count</code> sections are optional (though I'm assuming you'd want some type of navigation buttons). Slider will dynamically add navigation elements and slide position content to them.</p>
+
+            <p>They don't have to be <code>div</code> elements, as long as the classes are left intact, and can be moved around or styled with CSS however you see fit.</p>
+
+
+            <h2>3. Configure your settings.</h2>
+
+            <p>In the footer of your HTML document, activate Slider and configure your settings. This is where you can change the Slider navigation and position content, turn on auto-rotation (but please don't - that sucks), and more.</p>
+
+            <p class="space-bottom-small"><strong>Settings:</strong></p>
+
+            <ul>
+                <li>startSlide Integer (default: 0) - index position Swipe should start at</li>
+                <li>speed Integer (default: 300) - speed of prev and next transitions in milliseconds.</li>
+                <li>auto Integer - begin with auto slideshow (time in milliseconds between slides)</li>
+                <li>continuous Boolean (default: true) - create an infinite feel with no endpoints</li>
+                <li>disableScroll Boolean (default: false) - stop any touches on this container from scrolling the page</li>
+                <li>stopPropagation Boolean (default: false) - stop event propagation</li>
+                <li>callback Function - runs at slide change.</li>
+                <li>transitionEnd Function - runs at the end slide transition.</li>
+            </ul>
+
+            <p><strong>Add this to your footer to get started:</strong></p>
+
+            <pre>if ( 'querySelector' in document && 'addEventListener' in window ) {
+
+    // Slider Variable
+    var slider = document.querySelector('.slider');
+
+    // If a Slider exists
+    if (slider) {
+
+        // Activate Slider
+        window.mySwipe = Swipe(slider, {
+            // Configure your options
+            // startSlide: 1,
+            // speed: 400,
+            // auto: 3000,
+            continuous: true,
+            // disableScroll: false,
+            // stopPropagation: false,
+            callback: function(index, elem) {
+                // Update with new position on slide change
+                countSlides();
+            },
+            // transitionEnd: function(index, elem) {}
+        });
+
+
+        // Function to display slide count
+        var countSlides = function () {
+            // Variables
+            var slideTotal = mySwipe.getNumSlides();
+            var slideCurrent = mySwipe.getPos();
+            var slideCount = document.querySelector('.slide-count');
+            // Content
+            if (slideCount) {
+                slideCount.innerHTML = slideCurrent + ' of ' + slideTotal;
+            }   
+        }
+        // Run slide count function on load
+        countSlides();
+
+
+        // Create Previous & Next Buttons
+        var slideNav = document.querySelector('.slide-nav')
+        if (slideNav) {
+            slideNav.innerHTML = '&lt;a class="slide-nav-prev" href="#"&gt;Previous&lt;/a&gt; | &lt;a class="slide-nav-next" href="#"&gt;Next&lt;/a&gt;';
+        }
+
+        // Toggle Previous & Next Buttons
+        var btnNext = document.querySelector('.slide-nav-next');
+        var btnPrev = document.querySelector('.slide-nav-prev');
+        if (btnNext) {
+            btnNext.addEventListener('click', function(e) { e.preventDefault(); mySwipe.next(); }, false);
+        }
+        if (btnPrev) {
+            btnPrev.addEventListener('click', function(e) { e.preventDefault(); mySwipe.prev(); }, false);
+        }
+
+
+        // Toggle Left & Right Keypress
+        window.addEventListener('keydown', function (e) {
+            if (e.keyCode == 37) {
+                mySwipe.prev();
+            }
+            if (e.keyCode == 39) {
+                mySwipe.next();
+            }
+        }, false);
+        
+    }
+
+}</pre>
+
+            <hr>
+
+
+            <h1 class="text-center">Add your own functions</h1>
+
+            <p>The navigation elements, slide count and keyboard navigation for Slider were all created by tapping into the simple, powerful API included in <a href="http://swipejs.com">Swipe</a>.</p>
+
+            <p class="space-bottom-small"><strong>Write your own functions for using these API functions:</strong></p>
+
+            <ul>
+                <li><code>prev()</code> - Slide to prev</li>
+                <li><code>next()</code> - Slide to next</li>
+                <li><code>getPos()</code> - Returns current slide index position</li>
+                <li><code>getNumSlides()</code> - Returns the total amount of slides</li>
+                <li><code>slide(index, duration)</code> - Slide to set index position (duration: speed of transition in milliseconds)</li>
+            </ul>
 
             <hr>
 
@@ -67,37 +212,36 @@
             <hr>
 
 
-            <h1 class="text-center">Optional Advanced Features</h1>
+	        <h1 class="text-center">What's different...</h1>
 
-            <p>Slider is a fork of the amazing <a href="http://www.woothemes.com/flexslider/">FlexSlider by WooThemes</a> that's been adapted to integrate more closely with the <a href="http://cferdinandi.github.io/kraken/">Kraken boilerplate</a> and be easier to use.</p>
+	        <p class="space-bottom-small"><strong>From Swipe?</strong></p>
+            <p>Swipe sliders with lots of slides crash Safari in iOS. Slider incorporates <a href="https://github.com/bradbirdsall/Swipe/pull/277">Ron Ilan's bug fix</a>. Slider also includes built-in navigation buttons, slide position info, and keyboard navigation. Otherwise, not much.</p>
 
-            <p>Slider has a bunch of optional settings and advanced features. For examples and documentation, visit the <a href="http://www.woothemes.com/flexslider/">FlexSlider documentation</a> and click on "Advanced."</p>
-
-            <p><em><strong>A Quick Heads Up:</strong> FlexSlider requires you to "hook up" the slider with inline JavaScript. For ease of use, I've baked that right into <code>slider.js</code>. If you want to adjust any of the features, you can do so in that file.</em></p>
+	        <p class="space-bottom-small"><strong>From the old version of Slider?</strong></p>
+            <p>Slider 3 no longer requires jQuery, and is now powered entirely by modern, vanilla JavaScript. As a result, it's a <em>lot</em> faster, and works with any framework.</p>
 
             <hr>
 
 
-	        <h1 class="text-center">A More Usable Carousel</h1>
+	        <h1 class="text-center">More Usable Sliders</h1>
 
-	        <p>Slider modifies a few of FlexSlider's default settings to make it more usable and accessible:</p>
+	        <p>Used improperly, content sliders can have a negative impact on your site's usability and effectiveness. For more on carousel usability, read these great articles:</p>
 
-            <ul>
-                <li>Auto-rotation is disabled by default.</li>
-                <li>Navigation arrows are permanently visible.</li>
-                <li>Navigation arrows are icons, not images, for crisp rendering on retina displays.</li>
-                <li>Relative sizing so all elements scale proportionately.</li>
-                <li>Progressive enhancement. By default, all images and videos are displayed. A small script adds a <code>.js</code> class to the <code>body</code> element, which applies the Slider styles.</li>
+	        <ul>
+	            <li><a href="http://bradfrostweb.com/blog/post/carousels/">Carousels by Brad Frost</a></li>
+	            <li><a href="http://weedygarden.net/2013/01/carousel-stats/">Carousel Stats by Erik Runyons</a></li>
+	            <li><a href="http://www.nngroup.com/articles/auto-forwarding/">Auto-Forwarding Carousels by Nielsen Norman Group</a></li>
+	            <li><a href="http://yorkwebteam.blogspot.co.uk/2013/03/are-homepage-carousels-effective-aka.html">Are homepage carousels effective? by University of York</a></li>
             </ul>
-
-	         <p>For more on carousel usability, read these great articles by <a href="http://bradfrostweb.com/blog/post/carousels/">Brad Frost</a>, <a href="http://weedygarden.net/2013/01/carousel-stats/">Erik Runyons</a>, the <a href="http://www.nngroup.com/articles/auto-forwarding/">Nielsen Norman Group</a>, and the <a href="http://yorkwebteam.blogspot.co.uk/2013/03/are-homepage-carousels-effective-aka.html">University of York</a>.</p>
 
             <hr>
 
 
 	        <h1 class="text-center">Browser Support</h1>
 
-	        <p>Slider works in all modern browsers, and IE 7 and above. Slider also requires <a href="http://jquery.com/">jQuery 1.4.2</a> or higher.</p>
+	        <p>Slider works in all modern browsers with HTML5 support, including IE 9 and above.</p>
+
+	        <p>If you need to support older or non-HTML5 browsers, you can still download the <a href="https://github.com/cferdinandi/slider/tree/archive-v2">previous version of Slider on GitHub</a>.</p>
 
         </article>
 	</section>
@@ -105,7 +249,7 @@
 	<footer class="bg-gray">
         <article class="container">
 
-            <p class="text-small text-muted text-center">Built by <a href="http://gomakethings.com">Chris Ferdinandi</a>. Licensed under the <a href="http://www.gnu.org/licenses/gpl-2.0.html">GNU General Public License</a>.</p>
+            <p class="text-small text-muted text-center">Built by <a href="http://swipejs.com">Brad Birdsall</a>. Forked by <a href="http://gomakethings.com">Chris Ferdinandi</a>. Licensed under the <a href="http://gomakethings.com/mit/">MIT License</a>.</p>
 
             <p class="text-small text-muted text-center">Slider is an add-on for <a href="http://cferdinandi.github.com/kraken/">Kraken</a>, a lightweight, mobile-first boilerplate for front-end web developers. It works great as a standalone product, too.</p>
 
@@ -114,8 +258,71 @@
 
 
     <!-- Javascript -->
-    <script src="http://code.jquery.com/jquery-1.9.0.min.js"></script>
-    <script type='text/javascript' src='js/flexslider.js'></script>
+    <script type='text/javascript' src='js/slider.js'></script>
+    <script>
+        if ( 'querySelector' in document && 'addEventListener' in window ) {
+
+            // Slider Variable
+            var slider = document.querySelector('.slider');
+
+            // If a Slider exists
+            if (slider) {
+
+                // Activate Slider
+                window.mySwipe = Swipe(slider, {
+                    continuous: true,
+                    callback: function(index, elem) {
+                        countSlides();
+                    },
+                });
+
+
+                // Function to display slide count
+                var countSlides = function () {
+                    // Variables
+                    var slideTotal = mySwipe.getNumSlides();
+                    var slideCurrent = mySwipe.getPos();
+                    var slideCount = document.querySelector('.slide-count');
+                    // Content
+                    if (slideCount) {
+                        slideCount.innerHTML = slideCurrent + ' of ' + slideTotal;
+                    }   
+                }
+                // Run slide count function on load
+                countSlides();
+
+
+                // Create Previous & Next Buttons
+                var slideNav = document.querySelector('.slide-nav')
+                if (slideNav) {
+                    slideNav.innerHTML = '<a class="slide-nav-prev" href="#">Previous</a> | <a class="slide-nav-next" href="#">Next</a>';
+                }
+
+                // Toggle Previous & Next Buttons
+                var btnNext = document.querySelector('.slide-nav-next');
+                var btnPrev = document.querySelector('.slide-nav-prev');
+                if (btnNext) {
+                    btnNext.addEventListener('click', function(e) { e.preventDefault(); mySwipe.next(); }, false);
+                }
+                if (btnPrev) {
+                    btnPrev.addEventListener('click', function(e) { e.preventDefault(); mySwipe.prev(); }, false);
+                }
+
+
+                // Toggle Left & Right Keypress
+                window.addEventListener('keydown', function (e) {
+                    if (e.keyCode == 37) {
+                        mySwipe.prev();
+                    }
+                    if (e.keyCode == 39) {
+                        mySwipe.next();
+                    }
+                }, false);
+                
+            }
+
+        }
+    </script>
 
 </body>
 </html>
