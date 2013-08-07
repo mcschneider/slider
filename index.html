@@ -196,7 +196,7 @@
 
             <p>The navigation elements, slide count and keyboard navigation for Slider were all created by tapping into the simple, powerful API included in <a href="http://swipejs.com">Swipe</a>.</p>
 
-            <p class="space-bottom-small"><strong>Write your own functions for using these API functions:</strong></p>
+            <p class="space-bottom-small"><strong>Write your own functions using these API functions:</strong></p>
 
             <ul>
                 <li><code>prev()</code> - Slide to prev</li>
@@ -212,6 +212,8 @@
 	        <h1 class="text-center">Fluid Video</h1>
 
 	        <p>If you're including videos in your project, you also need to use <a href="http://gomakethings.com/using-fluidvids-js/">FluidVids.js</a>. Make sure it loads prior to Slider.</p>
+
+	        <p><em><strong>Note:</strong> There's a known bug with most touch-based sliders and video iframes. The iframe captures the entire touch event, making it impossible to swipe to the next slide. Accordingly, it's really important that you include an alternate means of navigation when including videos.</em></p>
 
             <hr>
 
