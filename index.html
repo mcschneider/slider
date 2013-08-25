@@ -33,7 +33,7 @@
 	            <span class="text-small">
 	                <a href="https://github.com/cferdinandi/slider"><i class="icon-github"></i> GitHub Project</a>
 	                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	                <a href="#more"><i class="icon-docs"></i> Getting Started</a>
+	                <a class="scroll" data-speed="300" href="#more"><i class="icon-docs"></i> Getting Started</a>
                 </span>
             </p>
 
@@ -66,15 +66,15 @@
 
             <h2>1. Include Slider on your site.</h2>
 
-            <pre>&lt;link rel="stylesheet" href="slider.css"&gt;
-&lt;script src="slider.js"&gt;&lt;/script&gt;</pre>
+            <pre><code class="language-markup">&lt;link rel="stylesheet" href="slider.css"&gt;
+&lt;script src="slider.js"&gt;&lt;/script&gt;</code></pre>
 
 
             <h2>2. Add the markup to your HTML.</h2>
 
             <p>Slider uses a simple HTML structure:</p>
 
-            <pre>&lt;div class="slider"&gt;
+            <pre><code class="language-markup">&lt;div class="slider"&gt;
     &lt;div class="slides"&gt;
         &lt;div&gt;&lt;img src="#"&gt;&lt;/div&gt;
         &lt;div&gt;&lt;img src="#"&gt;&lt;/div&gt;
@@ -83,7 +83,7 @@
     &lt;/div&gt;
 &lt;/div&gt;
 &lt;div class="slide-nav"&gt;&lt;/div&gt;
-&lt;div class="slide-count"&gt;&lt;/div&gt;</pre>
+&lt;div class="slide-count"&gt;&lt;/div&gt;</code></pre>
 
             <p>The <code>.slider-nav</code> and <code>.slider-count</code> sections are optional (though I'm assuming you'd want some type of navigation buttons). Slider will dynamically add navigation elements and slide position content to them.</p>
 
@@ -109,7 +109,7 @@
 
             <p><strong>Add this to your footer to get started:</strong></p>
 
-            <pre>&lt;script&gt;
+            <pre><code class="language-markup">&lt;script&gt;
     if ( 'querySelector' in document && 'addEventListener' in window ) {
 
         // Slider Variable
@@ -180,18 +180,18 @@
         }
 
     }
-&lt;/script&gt;</pre>
+&lt;/script&gt;</code></pre>
 
 
             <h2>4. Add a feature test.</h2>
 
             <p>Slider uses modern JavaScript API's that aren't supported by older browsers. Add this short snippet of code in the <code>&lt;head&gt;</code> of your HTML document to feature test:</p>
 
-            <pre>&lt;script&gt;
+            <pre><code class="language-markup">&lt;script&gt;
     if ( 'querySelector' in document && 'addEventListener' in window ) {
         document.documentElement.className += 'js';
     }
-&lt;/script&gt;</pre>
+&lt;/script&gt;</code></pre>
 
             <p>Older and less capable browsers will see a basic stack of content. Modern browsers (including IE 9 and higher) will see the slider.</p>
 
