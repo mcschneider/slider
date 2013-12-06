@@ -43,9 +43,16 @@
 	position: relative;
 }
 
-/*  Make slider images fluid */
-.slides img {
+/*  Make slider images and videos fluid */
+.slides img,
+.slides video,
+.slides iframe {
 	max-width: 100%;
+}
+
+.slides img,
+.slides video {
+	width: 100%;
 	height: auto;
 }
 
