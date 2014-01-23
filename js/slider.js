@@ -1,6 +1,6 @@
 /* =============================================================
 
-		Slider v3.5
+		Slider v3.6
 		A simple, responsive, touch-enabled image slider, forked from Swipe.
 
 		Script by Brad Birdsall.
