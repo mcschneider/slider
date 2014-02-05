@@ -30,7 +30,7 @@
 
 					<p>Slider is a fast, flexible content slider forked from <a href="http://swipejs.com">Swipe by Brad Birdsall</a>. It includes a few bug fixes and added features to make getting started quick and easy.</p>
 
-					<div class="slider">
+					<div class="slider" data-slider>
 						<div class="slides">
 							<div><img src="img/image1.jpg"></div>
 							<div><img src="img/image2.jpg"></div>
@@ -38,8 +38,8 @@
 							<div><iframe width="560" height="315" src="http://www.youtube.com/embed/8qjge9U_MiA" frameborder="0" allowfullscreen></iframe></div>
 						</div>
 					</div>
-					<div class="slide-nav"></div>
-					<div class="slide-count"></div>
+					<div data-slider-nav></div>
+					<div data-slider-count></div>
 
 					<hr>
 
@@ -81,7 +81,7 @@
 					<div class="tabs-content">
 						<div class="tabs-pane slider-single active">
 							<p class="space-bottom-small"><strong>Single Slider</strong></p>
-<pre><code class="language-markup">&lt;div class="slider"&gt;
+<pre><code class="language-markup">&lt;div class="slider" data-slider&gt;
 	&lt;div class="slides"&gt;
 		&lt;div&gt;&lt;img src="#"&gt;&lt;/div&gt;
 		&lt;div&gt;&lt;img src="#"&gt;&lt;/div&gt;
@@ -89,12 +89,12 @@
 		&lt;div&gt;Text content could go here, too.&lt;/div&gt;
 	&lt;/div&gt;
 &lt;/div&gt;
-&lt;div class="slide-nav"&gt;&lt;/div&gt;
-&lt;div class="slide-count"&gt;&lt;/div&gt;</code></pre>
+&lt;div data-slider-nav&gt;&lt;/div&gt;
+&lt;div data-slider-count&gt;&lt;/div&gt;</code></pre>
 
-							<p>The <code>.slider-nav</code> and <code>.slider-count</code> sections are optional (though I'm assuming you'd want some type of navigation buttons). Slider will dynamically add navigation elements and slide position content to them.</p>
+							<p>The <code>[slider-nav]</code> and <code>[slider-count]</code> sections are optional (though I'm assuming you'd want some type of navigation buttons). Slider will dynamically add navigation elements and slide position content to them.</p>
 
-							<p>They don't have to be <code>div</code> elements, as long as the classes are left intact, and can be moved around or styled with CSS however you see fit.</p>
+							<p>They don't have to be <code>div</code> elements, as long as the data attributes are left intact, and can be moved around or styled with CSS however you see fit.</p>
 						</div>
 						<div class="tabs-pane slider-multiple">
 							<p class="space-bottom-small"><strong>Multiple Sliders</strong></p>
@@ -105,12 +105,12 @@
 		&lt;div&gt;&lt;img src="img/image3.jpg"&gt;&lt;/div&gt;
 	&lt;/div&gt;
 &lt;/div&gt;
-&lt;div id="slide-nav-example"&gt;&lt;/div&gt;
-&lt;div id="slide-count-example"&gt;&lt;/div&gt;</code></pre>
+&lt;div data-slider-nav-example&gt;&lt;/div&gt;
+&lt;div data-slider-count-example&gt;&lt;/div&gt;</code></pre>
 
-							<p>Each slider must have a uniquely named <code>data-slider</code> value. The <code>#slider-nav-*</code> and <code>#slider-count-</code> sections are optional (though I'm assuming you'd want some type of navigation buttons). The IDs should end with the <code>data-slider</code> value.</p>
+							<p>Each slider must have a uniquely named <code>data-slider</code> value. The <code>[data-slider-nav-*]</code> and <code>[data-slider-count-*]</code> sections are optional (though I'm assuming you'd want some type of navigation buttons). The data attributes should end with the <code>[data-slider]</code> value.</p>
 
-							<p>Slider will dynamically add navigation elements and slide position content to them. They don't have to be <code>div</code> elements, as long as the IDs are left intact, and can be moved around or styled with CSS however you see fit.</p>
+							<p>Slider will dynamically add navigation elements and slide position content to them. They don't have to be <code>div</code> elements, as long as the data attributes are left intact, and can be moved around or styled with CSS however you see fit.</p>
 						</div>
 					</div>
 
@@ -141,7 +141,7 @@
 	if ( 'querySelector' in document && 'addEventListener' in window ) {
 
 		// Slider Variable
-		var slider = document.querySelector('.slider');
+		var slider = document.querySelector('[data-slider]');
 
 		// If a Slider exists
 		if (slider) {
@@ -168,7 +168,7 @@
 				// Variables
 				var slideTotal = mySwipe.getNumSlides();
 				var slideCurrent = mySwipe.getPos();
-				var slideCount = document.querySelector('.slide-count');
+				var slideCount = document.querySelector('[data-slider-count]');
 				// Content
 				if (slideCount) {
 					slideCount.innerHTML = slideCurrent + ' of ' + slideTotal;
@@ -179,14 +179,14 @@
 
 
 			// Create Previous & Next Buttons
-			var slideNav = document.querySelector('.slide-nav')
+			var slideNav = document.querySelector('[data-slider-nav]')
 			if (slideNav) {
-				slideNav.innerHTML = '&lt;a class="slide-nav-prev" href="#"&gt;Previous&lt;/a&gt; | &lt;a class="slide-nav-next" href="#"&gt;Next&lt;/a&gt;';
+				slideNav.innerHTML = '&lt;a data-slider-nav-prev href="#"&gt;Previous&lt;/a&gt; | &lt;a data-slider-nav-next href="#"&gt;Next&lt;/a&gt;';
 			}
 
 			// Toggle Previous & Next Buttons
-			var btnNext = document.querySelector('.slide-nav-next');
-			var btnPrev = document.querySelector('.slide-nav-prev');
+			var btnNext = document.querySelector('[data-slider-nav-next]');
+			var btnPrev = document.querySelector('[data-slider-nav-prev]');
 			if (btnNext) {
 				btnNext.addEventListener('click', function(e) { e.preventDefault(); mySwipe.next(); }, false);
 			}
@@ -220,7 +220,7 @@
 		if ( 'querySelector' in document && 'addEventListener' in window && Array.prototype.forEach ) {
 
 			// Slider Variable
-			var sliders = document.querySelectorAll('.slider');
+			var sliders = document.querySelectorAll('[data-slider]');
 
 			// If a Slider exists
 			if (sliders) {
@@ -245,7 +245,7 @@
 						// Variables
 						var slideTotal = window[sliderID].getNumSlides();
 						var slideCurrent = window[sliderID].getPos();
-						var slideCount = document.querySelector('#slide-count-' + sliderID);
+						var slideCount = document.querySelector('[data-slider-count-' + sliderID + ']');
 						// Content
 						if (slideCount) {
 							slideCount.innerHTML = slideCurrent + ' of ' + slideTotal;
@@ -256,14 +256,14 @@
 
 
 					// Create Previous & Next Buttons
-					var slideNav = document.querySelector('#slide-nav-' + sliderID)
+					var slideNav = document.querySelector('[data-slider-nav-' + sliderID + ']')
 					if (slideNav) {
-						slideNav.innerHTML = '&lt;a id="slide-nav-prev-' + sliderID + '" href="#"&gt;Previous&lt;/a&gt; | &lt;a id="slide-nav-next-' + sliderID + '" href="#"&gt;Next&lt;/a&gt;';
+						slideNav.innerHTML = '&lt;a data-slider-nav-prev' + sliderID + ' href="#"&gt;Previous&lt;/a&gt; | &lt;a data-slider-nav-next' + sliderID + '  href="#"&gt;Next&lt;/a&gt;';
 					}
 
 					// Toggle Previous & Next Buttons
-					var btnNext = document.querySelector('#slide-nav-next-' + sliderID);
-					var btnPrev = document.querySelector('#slide-nav-prev-' + sliderID);
+					var btnNext = document.querySelector('[data-slider-nav-next-' + sliderID + ']');
+					var btnPrev = document.querySelector('[data-slider-nav-prev-' + sliderID + ']');
 					if (btnNext) {
 						btnNext.addEventListener('click', function(e) { e.preventDefault(); window[sliderID].next(); }, false);
 					}
