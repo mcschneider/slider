@@ -29,7 +29,7 @@
 					<h1 class="text-taller no-space-bottom"><i class="icon-logo"></i> Slider</h1>
 					<p class="text-tall text-muted">A simple, responsive, touch-enabled content slider.</p>
 
-					<p><a class="btn btn-blue btn-xlarge" href="https://github.com/cferdinandi/slider/archive/master.zip">Download Slider 3</a></p>
+					<p><a class="btn btn-blue btn-xlarge" href="https://github.com/cferdinandi/slider/archive/master.zip">Download Slider 4</a></p>
 
 					<p>
 						<span class="text-small">
@@ -59,9 +59,9 @@
 							<div><img src="img/image3.jpg"></div>
 							<div><iframe width="560" height="315" src="http://www.youtube.com/embed/8qjge9U_MiA" frameborder="0" allowfullscreen></iframe></div>
 						</div>
+						<div data-slider-nav></div>
+						<div data-slider-count></div>
 					</div>
-					<div data-slider-nav></div>
-					<div data-slider-count></div>
 
 					<hr>
 
@@ -81,10 +81,6 @@
 
 					<h1 id="get-started">Getting Started</h1>
 
-					<p>The markup and setting differ a little bit when including just a single slider on a page versus multiple sliders. Pick your setup.</p>
-
-					<p class="tabs"><button class="btn active" data-target=".slider-single">Single</button> <button class="btn" data-target=".slider-multiple">Multiple</button></p>
-
 
 					<h2 class="text-left">1. Include Slider on your site.</h2>
 
@@ -95,14 +91,13 @@
 
 					<p>The <code>_config.scss</code> and <code>_mixins.scss</code> files are the same ones used in <a href="http://cferdinandi.github.io/kraken/">Kraken</a>, so you can drop the <code>_slider.css</code> file right into Kraken without making any updates. Or, adjust the variables to suit your own project.</p>
 
+					<p class="text-muted"><span class="text-small"><span class="label">Heads Up!</span> Make sure to put your JS file in the footer or Slider won't work (it's better for performance, too).</span></p>
+
 
 					<h2 class="text-left">2. Add the markup to your HTML.</h2>
 
 					<p>Slider uses a simple HTML structure.</p>
 
-					<div class="tabs-content">
-						<div class="tabs-pane slider-single active">
-							<p class="space-bottom-small"><strong>Single Slider</strong></p>
 <pre><code class="language-markup">&lt;div class="slider" data-slider&gt;
 	&lt;div class="slides"&gt;
 		&lt;div&gt;&lt;img src="#"&gt;&lt;/div&gt;
@@ -110,31 +105,13 @@
 		&lt;div&gt;&lt;video src="#"&gt;&lt;/div&gt;
 		&lt;div&gt;Text content could go here, too.&lt;/div&gt;
 	&lt;/div&gt;
-&lt;/div&gt;
-&lt;div data-slider-nav&gt;&lt;/div&gt;
-&lt;div data-slider-count&gt;&lt;/div&gt;</code></pre>
+	&lt;div data-slider-nav&gt;&lt;/div&gt;
+	&lt;div data-slider-count&gt;&lt;/div&gt;
+&lt;/div&gt;</code></pre>
 
-							<p>The <code>[slider-nav]</code> and <code>[slider-count]</code> sections are optional (though I'm assuming you'd want some type of navigation buttons). Slider will dynamically add navigation elements and slide position content to them.</p>
+					<p>The <code>[slider-nav]</code> and <code>[slider-count]</code> sections are optional (though I'm assuming you'd want some type of navigation buttons). Slider will dynamically add navigation elements and slide position content to them.</p>
 
-							<p>They don't have to be <code>div</code> elements, as long as the data attributes are left intact, and can be moved around or styled with CSS however you see fit.</p>
-						</div>
-						<div class="tabs-pane slider-multiple">
-							<p class="space-bottom-small"><strong>Multiple Sliders</strong></p>
-<pre><code class="language-markup">&lt;div class="slider" data-slider="example"&gt;
-	&lt;div class="slides"&gt;
-		&lt;div&gt;&lt;img src="img/image1.jpg"&gt;&lt;/div&gt;
-		&lt;div&gt;&lt;img src="img/image2.jpg"&gt;&lt;/div&gt;
-		&lt;div&gt;&lt;img src="img/image3.jpg"&gt;&lt;/div&gt;
-	&lt;/div&gt;
-&lt;/div&gt;
-&lt;div data-slider-nav-example&gt;&lt;/div&gt;
-&lt;div data-slider-count-example&gt;&lt;/div&gt;</code></pre>
-
-							<p>Each slider must have a uniquely named <code>data-slider</code> value. The <code>[data-slider-nav-*]</code> and <code>[data-slider-count-*]</code> sections are optional (though I'm assuming you'd want some type of navigation buttons). The data attributes should end with the <code>[data-slider]</code> value.</p>
-
-							<p>Slider will dynamically add navigation elements and slide position content to them. They don't have to be <code>div</code> elements, as long as the data attributes are left intact, and can be moved around or styled with CSS however you see fit.</p>
-						</div>
-					</div>
+					<p>They don't have to be <code>div</code> elements, as long as the data attributes are left intact and they're contained within the <code>[slider-nav]</code> section, and can be moved around or styled with CSS however you see fit.</p>
 
 
 					<h2 class="text-left">3. Configure your settings.</h2>
@@ -156,180 +133,126 @@
 
 					<p>Add this to your footer to get started:</p>
 
-					<div class="tabs-content">
-						<div class="tabs-pane slider-single active">
-							<p class="space-bottom-small"><strong>Single Slider</strong></p>
-<pre><code class="language-markup">&lt;script&gt;
-	if ( 'querySelector' in document && 'addEventListener' in window ) {
+<pre><code class="language-markup">window.sliderInit = (function (window, document, undefined) {
 
-		// Slider Variable
-		var slider = document.querySelector('[data-slider]');
+	'use strict';
 
-		// If a Slider exists
-		if (slider) {
+	// Feature Test
+	if ( 'querySelector' in document && 'addEventListener' in window && Array.prototype.forEach ) {
+
+		// SELECTORS
+		var sliders = document.querySelectorAll('[data-slider]');
+		var mySwipe = Array;
+
+
+		// EVENTS, LISTENERS, AND INITS
+
+		// Add class to HTML element to activate conditional CSS
+		document.documentElement.className += ' js-slider';
+
+		// Activate all sliders
+		Array.prototype.forEach.call(sliders, function (slider, index) {
+
+			// SELECTORS
+
+			var slideCount = slider.querySelector('[data-slider-count]'); // Slider count wrapper
+			var slideNav = slider.querySelector('[data-slider-nav]'); // Slider nav wrapper
+
+
+			// METHODS
+
+			// Display count of slides
+			var createSlideCount = function () {
+				var slideTotal = mySwipe[index].getNumSlides();
+				var slideCurrent = mySwipe[index].getPos();
+				if ( slideCount !== null ) {
+					slideCount.innerHTML = slideCurrent + ' of ' + slideTotal;
+				}
+			};
+
+			// Display Slider navigation
+			var createNavButtons = function () {
+				if ( slideNav !== null ) {
+					slideNav.innerHTML = '&lt;a data-slider-nav-prev href="#"&gt;Previous&lt;/a&gt; | &lt;a data-slider-nav-next href="#"&gt;Next&lt;/a&gt;';
+				}
+			};
+
+			// Stop YouTube and Vimeo videos from playing when leaving the slide
+			var stopVideo = function () {
+				var currentSlide = mySwipe[index].getPos() - 1;
+				var video = slider.querySelector( '[data-index="' + currentSlide + '"] iframe');
+				if ( video !== null ) {
+					var videoSrc = video.src;
+					video.src = videoSrc;
+				}
+			};
+
+			// Handle next button
+			var handleNextBtn = function (event) {
+				event.preventDefault();
+				stopVideo();
+				mySwipe[index].next();
+			};
+
+			// Handle previous button
+			var handlePrevBtn = function (event) {
+				event.preventDefault();
+				stopVideo();
+				mySwipe[index].prev();
+			};
+
+			// Handle keypress
+			var handleKeypress = function (event) {
+				if ( event.keyCode == 37 ) {
+					mySwipe[index].prev();
+				}
+				if ( event.keyCode == 39) {
+					mySwipe[index].next();
+				}
+			};
+
+
+			// EVENTS, LISTENERS, AND INITS
 
 			// Activate Slider
-			window.mySwipe = Swipe(slider, {
-				// Configure your options
-				// startSlide: 1,
+			mySwipe[index] = Swipe(slider, {
+				// startSlide: 2,
 				// speed: 400,
 				// auto: 3000,
 				continuous: true,
 				// disableScroll: false,
 				// stopPropagation: false,
 				callback: function(index, elem) {
-					// Update with new position on slide change
-					countSlides();
+					createSlideCount(); // Update with new position on slide change
 				},
 				// transitionEnd: function(index, elem) {}
 			});
 
-
-			// Function to display slide count
-			var countSlides = function () {
-				// Variables
-				var slideTotal = mySwipe.getNumSlides();
-				var slideCurrent = mySwipe.getPos();
-				var slideCount = document.querySelector('[data-slider-count]');
-				// Content
-				if (slideCount) {
-					slideCount.innerHTML = slideCurrent + ' of ' + slideTotal;
-				}
-			}
-			// Run slide count function on load
-			countSlides();
-
-
-			// Create Previous & Next Buttons
-			var slideNav = document.querySelector('[data-slider-nav]')
-			if (slideNav) {
-				slideNav.innerHTML = '&lt;a data-slider-nav-prev href="#"&gt;Previous&lt;/a&gt; | &lt;a data-slider-nav-next href="#"&gt;Next&lt;/a&gt;';
-			}
+			// Create slide count and nav
+			createSlideCount();
+			createNavButtons();
+			var btnNext = slider.querySelector('[data-slider-nav-next]'); // Next slide button
+			var btnPrev = slider.querySelector('[data-slider-nav-prev]'); // Previous slide button
 
 			// Toggle Previous & Next Buttons
-			var btnNext = document.querySelector('[data-slider-nav-next]');
-			var btnPrev = document.querySelector('[data-slider-nav-prev]');
-			if (btnNext) {
-				btnNext.addEventListener('click', function(e) { e.preventDefault(); mySwipe.next(); }, false);
+			if ( btnNext ) {
+				btnNext.addEventListener('click', handleNextBtn, false);
 			}
-			if (btnPrev) {
-				btnPrev.addEventListener('click', function(e) { e.preventDefault(); mySwipe.prev(); }, false);
+			if ( btnPrev ) {
+				btnPrev.addEventListener('click', handlePrevBtn, false);
 			}
-
 
 			// Toggle Left & Right Keypress
-			window.addEventListener('keydown', function (e) {
-				if (e.keyCode == 37) {
-					mySwipe.prev();
-				}
-				if (e.keyCode == 39) {
-					mySwipe.next();
-				}
-			}, false);
+			window.addEventListener('keydown', handleKeypress, false);
 
-		}
+		});
 
 	}
-&lt;/script&gt;</code></pre>
-						</div>
-						<div class="tabs-pane slider-multiple">
-							<p class="space-bottom-small"><strong>Multiple Sliders</strong></p>
-<pre><code class="language-javascript">&lt;script&gt;
-	(function() {
 
-		'use strict';
-
-		if ( 'querySelector' in document && 'addEventListener' in window && Array.prototype.forEach ) {
-
-			// Slider Variable
-			var sliders = document.querySelectorAll('[data-slider]');
-
-			// If a Slider exists
-			if (sliders) {
-
-				Array.prototype.forEach.call(sliders, function (slider) {
-
-					var sliderID = slider.getAttribute('data-slider');
-
-					// Activate Slider
-					window[sliderID] = Swipe(slider, {
-						// Configure your options
-						continuous: true,
-						callback: function(index, elem) {
-							// Update with new position on slide change
-							countSlides();
-						}
-					});
+})(window, document);</code></pre>
 
 
-					// Function to display slide count
-					var countSlides = function () {
-						// Variables
-						var slideTotal = window[sliderID].getNumSlides();
-						var slideCurrent = window[sliderID].getPos();
-						var slideCount = document.querySelector('[data-slider-count-' + sliderID + ']');
-						// Content
-						if (slideCount) {
-							slideCount.innerHTML = slideCurrent + ' of ' + slideTotal;
-						}
-					}
-					// Run slide count function on load
-					countSlides();
-
-
-					// Create Previous & Next Buttons
-					var slideNav = document.querySelector('[data-slider-nav-' + sliderID + ']')
-					if (slideNav) {
-						slideNav.innerHTML = '&lt;a data-slider-nav-prev' + sliderID + ' href="#"&gt;Previous&lt;/a&gt; | &lt;a data-slider-nav-next' + sliderID + '  href="#"&gt;Next&lt;/a&gt;';
-					}
-
-					// Toggle Previous & Next Buttons
-					var btnNext = document.querySelector('[data-slider-nav-next-' + sliderID + ']');
-					var btnPrev = document.querySelector('[data-slider-nav-prev-' + sliderID + ']');
-					if (btnNext) {
-						btnNext.addEventListener('click', function(e) { e.preventDefault(); window[sliderID].next(); }, false);
-					}
-					if (btnPrev) {
-						btnPrev.addEventListener('click', function(e) { e.preventDefault(); window[sliderID].prev(); }, false);
-					}
-
-
-					// Toggle Left & Right Keypress
-					window.addEventListener('keydown', function (e) {
-						if (e.keyCode == 37) {
-							window[sliderID].prev();
-						}
-						if (e.keyCode == 39) {
-							window[sliderID].next();
-						}
-					}, false);
-
-				});
-
-			}
-
-		}
-
-	})();
-&lt;/script&gt;</code></pre>
-						</div>
-					</div>
-
-
-					<h2 class="text-left">4. Add a feature test.</h2>
-
-					<p>Slider uses modern JavaScript API's that aren't supported by older browsers. Add this short snippet of code in the <code>&lt;head&gt;</code> of your HTML document to feature test:</p>
-
-<pre><code class="language-markup">&lt;script&gt;
-	if ( 'querySelector' in document && 'addEventListener' in window ) {
-		document.documentElement.className += 'js';
-	}
-&lt;/script&gt;</code></pre>
-
-					<p>Older and less capable browsers will see a basic stack of content. Modern browsers (including IE 9 and higher) will see the slider.</p>
-
-
-					<h2 class="text-left">5. Pat yourself on the back.</h2>
+					<h2 class="text-left">4. Pat yourself on the back.</h2>
 
 					<p>Seriously, you're done. Nice work! Modify as needed.</p>
 
@@ -404,7 +327,7 @@
 					<p>Swipe sliders with lots of slides crash Safari in iOS. Slider incorporates <a href="https://github.com/bradbirdsall/Swipe/pull/277">Ron Ilan's bug fix</a>. Slider also includes built-in navigation buttons, slide position info, keyboard navigation, and progressive enhancement. Otherwise, not much.</p>
 
 					<p class="space-bottom-small"><strong>From the old version of Slider?</strong></p>
-					<p>Slider 3 no longer requires jQuery, and is now powered entirely by modern, vanilla JavaScript. As a result, it's a <em>lot</em> faster, and works with any framework.</p>
+					<p>Slider no longer requires jQuery, and is now powered entirely by modern, vanilla JavaScript. As a result, it's a <em>lot</em> faster, and works with any framework.</p>
 
 					<hr>
 
@@ -449,7 +372,9 @@
 
 					<h1>Browser Compatability</h1>
 
-					<p>Slider works in all modern browsers, including IE 9 and above. If you need to support older browsers, you can still download the <a href="https://github.com/cferdinandi/slider/tree/archive-v2">jQuery version of Slider on GitHub</a>.</p>
+					<p>Slider works in all modern browsers, including IE 9 and above.</p>
+
+					<p>Slider is built with modern JavaScript APIs, and uses progressive enhancement. If the JavaScript file fails to load, or if your site is viewed on older and less capable browsers, all content will be displayed by default. If you need to support older browsers, you can still download the <a href="https://github.com/cferdinandi/slider/tree/archive-v2">jQuery version of Slider on GitHub</a>.</p>
 
 				</div>
 			</div>
@@ -480,71 +405,121 @@
 		<script src="js/fluidvids.js"></script>
 		<script src="js/slider.js"></script>
 		<script>
-			if ( 'querySelector' in document && 'addEventListener' in window ) {
+			window.sliderInit = (function (window, document, undefined) {
 
-				// Slider Variable
-				var slider = document.querySelector('[data-slider]');
+				'use strict';
 
-				// If a Slider exists
-				if (slider) {
+				// Feature Test
+				if ( 'querySelector' in document && 'addEventListener' in window && Array.prototype.forEach ) {
 
-					// Activate Slider
-					window.mySwipe = Swipe(slider, {
-						continuous: true,
-						callback: function(index, elem) {
-							countSlides();
-						},
+					// SELECTORS
+					var sliders = document.querySelectorAll('[data-slider]');
+					var mySwipe = Array;
+
+
+					// EVENTS, LISTENERS, AND INITS
+
+					// Add class to HTML element to activate conditional CSS
+					document.documentElement.className += ' js-slider';
+
+					// Activate all sliders
+					Array.prototype.forEach.call(sliders, function (slider, index) {
+
+						// SELECTORS
+
+						var slideCount = slider.querySelector('[data-slider-count]'); // Slider count wrapper
+						var slideNav = slider.querySelector('[data-slider-nav]'); // Slider nav wrapper
+
+
+						// METHODS
+
+						// Display count of slides
+						var createSlideCount = function () {
+							// Variables
+							var slideTotal = mySwipe[index].getNumSlides();
+							var slideCurrent = mySwipe[index].getPos();
+
+							// Content
+							if ( slideCount !== null ) {
+								slideCount.innerHTML = slideCurrent + ' of ' + slideTotal;
+							}
+						};
+
+						// Display Slider navigation
+						var createNavButtons = function () {
+							if ( slideNav !== null ) {
+								slideNav.innerHTML = '<a data-slider-nav-prev href="#">Previous</a> | <a data-slider-nav-next href="#">Next</a>';
+							}
+						};
+
+						// Stop YouTube and Vimeo videos from playing when leaving the slide
+						var stopVideo = function () {
+							var currentSlide = mySwipe[index].getPos() - 1;
+							var video = slider.querySelector( '[data-index="' + currentSlide + '"] iframe');
+							if ( video !== null ) {
+								var videoSrc = video.src;
+								video.src = videoSrc;
+							}
+						};
+
+						// Handle next button
+						var handleNextBtn = function (event) {
+							event.preventDefault();
+							stopVideo();
+							mySwipe[index].next();
+						};
+
+						// Handle previous button
+						var handlePrevBtn = function (event) {
+							event.preventDefault();
+							stopVideo();
+							mySwipe[index].prev();
+						};
+
+						// Handle keypress
+						var handleKeypress = function (event) {
+							if ( event.keyCode == 37 ) {
+								mySwipe[index].prev();
+							}
+							if ( event.keyCode == 39) {
+								mySwipe[index].next();
+							}
+						};
+
+
+						// EVENTS, LISTENERS, AND INITS
+
+						// Activate Slider
+						mySwipe[index] = Swipe(slider, {
+							continuous: true,
+							callback: function(index, elem) {
+								createSlideCount(); // Update with new position on slide change
+							}
+						});
+
+						// Create slide count and nav
+						createSlideCount();
+						createNavButtons();
+						var btnNext = slider.querySelector('[data-slider-nav-next]'); // Next slide button
+						var btnPrev = slider.querySelector('[data-slider-nav-prev]'); // Previous slide button
+
+						// Toggle Previous & Next Buttons
+						if ( btnNext ) {
+							btnNext.addEventListener('click', handleNextBtn, false);
+						}
+						if ( btnPrev ) {
+							btnPrev.addEventListener('click', handlePrevBtn, false);
+						}
+
+						// Toggle Left & Right Keypress
+						window.addEventListener('keydown', handleKeypress, false);
+
 					});
-
-
-					// Function to display slide count
-					var countSlides = function () {
-						// Variables
-						var slideTotal = mySwipe.getNumSlides();
-						var slideCurrent = mySwipe.getPos();
-						var slideCount = document.querySelector('[data-slider-count]');
-						// Content
-						if (slideCount) {
-							slideCount.innerHTML = slideCurrent + ' of ' + slideTotal;
-						}
-					}
-					// Run slide count function on load
-					countSlides();
-
-
-					// Create Previous & Next Buttons
-					var slideNav = document.querySelector('[data-slider-nav]')
-					if (slideNav) {
-						slideNav.innerHTML = '<a data-slider-nav-prev href="#">Previous</a> | <a data-slider-nav-next href="#">Next</a>';
-					}
-
-					// Toggle Previous & Next Buttons
-					var btnNext = document.querySelector('[data-slider-nav-next]');
-					var btnPrev = document.querySelector('[data-slider-nav-prev]');
-					if (btnNext) {
-						btnNext.addEventListener('click', function(e) { e.preventDefault(); mySwipe.next(); }, false);
-					}
-					if (btnPrev) {
-						btnPrev.addEventListener('click', function(e) { e.preventDefault(); mySwipe.prev(); }, false);
-					}
-
-
-					// Toggle Left & Right Keypress
-					window.addEventListener('keydown', function (e) {
-						if (e.keyCode == 37) {
-							mySwipe.prev();
-						}
-						if (e.keyCode == 39) {
-							mySwipe.next();
-						}
-					}, false);
 
 				}
 
-			}
+			})(window, document);
 		</script>
-		<script src="js/buoy.js"></script>
-		<script src="js/tabby.js"></script>
 		<script src="js/smooth-scroll.js"></script>
 		<script src="js/prism.js"></script>
 
